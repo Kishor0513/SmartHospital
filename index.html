@@ -1,50 +1,201 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Hospital & Garden Monitoring</title>
-    <link rel="stylesheet" href="styles.css">
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-</head>
-<body>
-    <header>
-        <h1>Real-Time Monitoring Dashboard</h1>
-    </header>
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>Smart Hospital Live Dashboard</title>
+		<link
+			rel="preconnect"
+			href="https://fonts.googleapis.com"
+		/>
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="style.css"
+		/>
+		<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+	</head>
+	<body>
+		<div class="background-glow"></div>
 
-    <section>
-        <h2>Hospital Data</h2>
-        <div id="hospital-data">
-            <p>Temperature: <span id="temperature">Loading...</span> °C</p>
-            <p>Humidity: <span id="humidity">Loading...</span> %</p>
-            <p>Gas Detected: <span id="gasDetected">Loading...</span></p>
-            <p>Fire Detected: <span id="fireDetected">Loading...</span></p>
-        </div>
-    </section>
+		<main class="dashboard-shell">
+			<header class="hero">
+				<p class="eyebrow">Smart Monitoring Grid</p>
+				<h1>Hospital, Canteen and Garden Live Ops</h1>
+				<div class="hero-meta">
+					<span id="current-time">Syncing time...</span>
+					<span class="meta-separator">|</span>
+					<span>Realtime Firebase Stream</span>
+				</div>
+			</header>
 
-    <section>
-        <h2>Canteen Data</h2>
-        <div id="canteen-data">
-            <p>Gas Sensor Value: <span id="canteen-gas">Loading...</span></p>
-            <p>Fire Detected: <span id="canteen-fire">Loading...</span></p>
-        </div>
-    </section>
+			<section class="cards-grid">
+				<article
+					class="panel"
+					id="hospital-panel"
+					data-state="ok"
+				>
+					<div class="panel-head">
+						<h2>Hospital</h2>
+						<span
+							id="hospital-safety"
+							class="badge is-ok"
+							>Stable</span
+						>
+					</div>
+					<div class="metric-grid two-col">
+						<div class="metric">
+							<p class="label">Temperature</p>
+							<p class="value">
+								<span id="temperature">--</span><span class="unit">degC</span>
+							</p>
+						</div>
+						<div class="metric">
+							<p class="label">Humidity</p>
+							<p class="value">
+								<span id="humidity">--</span><span class="unit">%</span>
+							</p>
+						</div>
+						<div class="metric">
+							<p class="label">Gas Detected</p>
+							<p
+								class="value status-text"
+								id="gasDetected"
+							>
+								--
+							</p>
+						</div>
+						<div class="metric">
+							<p class="label">Fire Detected</p>
+							<p
+								class="value status-text"
+								id="fireDetected"
+							>
+								--
+							</p>
+						</div>
+					</div>
+				</article>
 
-    <section>
-        <h2>Garden Data</h2>
-        <div id="garden-data">
-            <p>Soil Moisture: <span id="soilMoisture">Loading...</span></p>
-            <p>Water Sensor: <span id="waterSensor">Loading...</span></p>
-            <p>Motor Pump: <span id="motorPump">Loading...</span></p>
-        </div>
-    </section>
+				<article
+					class="panel"
+					id="canteen-panel"
+					data-state="ok"
+				>
+					<div class="panel-head">
+						<h2>Canteen</h2>
+						<span
+							id="canteen-safety"
+							class="badge is-ok"
+							>Nominal</span
+						>
+					</div>
+					<div class="metric-grid">
+						<div class="metric">
+							<p class="label">Gas Sensor Value</p>
+							<p
+								class="value"
+								id="canteen-gas"
+							>
+								--
+							</p>
+						</div>
+						<div class="metric">
+							<p class="label">Fire Detected</p>
+							<p
+								class="value status-text"
+								id="canteen-fire"
+							>
+								--
+							</p>
+						</div>
+					</div>
+				</article>
 
-    <footer>
-        <p>&copy; 2024 Smart Monitoring System</p>
-    </footer>
+				<article
+					class="panel"
+					id="garden-panel"
+					data-state="ok"
+				>
+					<div class="panel-head">
+						<h2>Garden</h2>
+						<span
+							id="garden-state"
+							class="badge is-ok"
+							>Ready</span
+						>
+					</div>
+					<div class="metric-grid">
+						<div class="metric">
+							<p class="label">Soil Moisture</p>
+							<p
+								class="value"
+								id="soilMoisture"
+							>
+								--
+							</p>
+						</div>
+						<div class="metric">
+							<p class="label">Water Sensor</p>
+							<p
+								class="value status-text"
+								id="waterSensor"
+							>
+								--
+							</p>
+						</div>
+						<div class="metric">
+							<p class="label">Motor Pump</p>
+							<p
+								class="value status-text"
+								id="motorPump"
+							>
+								--
+							</p>
+						</div>
+					</div>
+				</article>
 
-    <script src="app.js"></script>
-</body>
+				<article class="panel panel-system">
+					<div class="panel-head">
+						<h2>System Pulse</h2>
+					</div>
+					<div class="metric-grid">
+						<div class="metric">
+							<p class="label">Active Alerts</p>
+							<p
+								class="value"
+								id="active-alerts"
+							>
+								0
+							</p>
+						</div>
+						<div class="metric">
+							<p class="label">Last Update</p>
+							<p
+								class="value value-small"
+								id="last-update"
+							>
+								Waiting...
+							</p>
+						</div>
+					</div>
+				</article>
+			</section>
+		</main>
+
+		<script src="app.js"></script>
+	</body>
 </html>
